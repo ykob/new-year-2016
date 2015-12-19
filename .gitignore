@@ -1,0 +1,6 @@
+node_modules
+ignore
+js/main.js
+css/style.css
+.sass-cache
+*.sublime-*
