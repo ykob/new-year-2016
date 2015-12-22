@@ -104,7 +104,7 @@ var exports = function(){
       positions[i * 3 + 0] = mover.position.x - points.position.x;
       positions[i * 3 + 1] = mover.position.y - points.position.x;
       positions[i * 3 + 2] = mover.position.z - points.position.x;
-      mover.size = Math.log(Util.getRandomInt(1, 128)) / Math.log(128) * Math.sqrt(document.body.clientWidth);
+      mover.size = Math.log(Util.getRandomInt(1, 128)) / Math.log(128) * Math.sqrt(document.body.clientWidth) / 2;
       sizes[i] = mover.size;
     }
     points.updatePoints();
@@ -118,12 +118,14 @@ var exports = function(){
 
     canvas.width = 200;
     canvas.height = 200;
-    grad = ctx.createRadialGradient(100, 100, 20, 100, 100, 100);
-    grad.addColorStop(0.2, 'rgba(255, 255, 255, 1)');
-    grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.3)');
-    grad.addColorStop(1.0, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = grad;
-    ctx.arc(100, 100, 100, 0, Math.PI / 180, true);
+    // grad = ctx.createRadialGradient(100, 100, 20, 100, 100, 100);
+    // grad.addColorStop(0.2, 'rgba(255, 255, 255, 1)');
+    // grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.3)');
+    // grad.addColorStop(1.0, 'rgba(255, 255, 255, 0)');
+    // ctx.fillStyle = grad;
+    // ctx.arc(100, 100, 100, 0, Math.PI / 180, true);
+    ctx.fillStyle = '#ffffff';
+    ctx.rect(0, 0, 200, 200);
     ctx.fill();
 
     texture = new THREE.Texture(canvas);
