@@ -43,13 +43,6 @@ var init = function() {
   });
 };
 
-var getParameterByName = function(name) {
-  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-  var results = regex.exec(location.search);
-  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-};
-
 var render = function() {
   renderer.clear();
   running.render(scene, camera, vector_mouse_move);
