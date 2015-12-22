@@ -79,7 +79,7 @@ var exports = function(){
       var mover = movers[i];
       var rad1 = Util.getRadian(Util.getRandomInt(0, 360));
       var rad2 = Util.getRadian(Util.getRandomInt(0, 360));
-      var scalar = Util.getRandomInt(40, 80);
+      var scalar = 12 * Util.getRandomInt(8, 12);
       mover.is_activate = false;
       mover.applyForce(Util.getSpherical(rad1, rad2, scalar));
     }
@@ -93,10 +93,10 @@ var exports = function(){
         mover.is_activate = true;
       }
       if (mover.is_activate) {
-        mover.applyHook(0, 0.18);
-        mover.applyDrag(0.26);
+        mover.applyHook(0, 0.5);
+        mover.applyDrag(0.4);
       } else {
-        mover.applyDrag(0.035);
+        mover.applyDrag(0.1);
       }
       mover.updateVelocity();
       mover.updatePosition();
