@@ -58,7 +58,7 @@ var exports = function(){
       movers.push(mover);
       color.toArray(colors, i * 3);
       opacities[i] = 1;
-      sizes[i] = 12;
+      sizes[i] = 0;
     }
     points.init({
       scene: scene,
