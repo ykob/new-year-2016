@@ -7,7 +7,10 @@ var fs = glslify('./points.fs');
 
 var exports = function(){
   var Sketch = function() {};
-  var image = new Image();
+  var images = [];
+  var image_files = [
+    './img/elephant.png'
+  ];
   var image_vertices = [];
   var movers = [];
   var positions = null;
@@ -19,41 +22,49 @@ var exports = function(){
   var created_points = false;
 
   var loadImage = function(callback) {
-    image.src = './img/elephant.png';
-    image.onload = function() {
-      callback();
-    };
+    var finished_count = 0;
+    for (var i = 0; i < image_files.length; i++) {
+      images[i] = new Image();
+      images[i].src = image_files[i];
+      images[i].onload = function() {
+        finished_count += 1;
+        if (image_files.length >= finished_count) {
+          callback();
+        }
+      };
+    }
   };
 
-  var getImageData = function() {
+  var getImageData = function(i) {
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
+    image_vertices[i] = [];
     canvas.width = length_side;
     canvas.height = length_side;
-    ctx.drawImage(image, 0, 0);
+    ctx.drawImage(images[i], 0, 0);
     var image_data = ctx.getImageData(0, 0, length_side, length_side);
     for (var y = 0; y < length_side; y++) {
       if (y % 3 > 0) continue;
       for (var x = 0; x < length_side; x++) {
         if (x % 3 > 0) continue;
         if(image_data.data[(x + y * length_side) * 4] > 0) {
-          image_vertices.push(0, (y - length_side / 2) * -1, (x - length_side/ 2) * -1);
+          image_vertices[i].push(0, (y - length_side / 2) * -1, (x - length_side/ 2) * -1);
         }
       }
     }
   };
 
   var buildPoints = function(scene) {
-    positions = new Float32Array(image_vertices);
-    colors = new Float32Array(image_vertices.length);
-    opacities = new Float32Array(image_vertices.length / 3);
-    sizes = new Float32Array(image_vertices.length / 3);
-    for (var i = 0; i < image_vertices.length / 3; i++) {
+    positions = new Float32Array(image_vertices[0]);
+    colors = new Float32Array(image_vertices[0].length);
+    opacities = new Float32Array(image_vertices[0].length / 3);
+    sizes = new Float32Array(image_vertices[0].length / 3);
+    for (var i = 0; i < image_vertices[0].length / 3; i++) {
       var mover = new Mover();
       var color = new THREE.Color(
         'hsl(0, 80%, 70%)'
       );
-      mover.init(new THREE.Vector3(image_vertices[i * 3], image_vertices[i * 3 + 1], image_vertices[i * 3 + 2]));
+      mover.init(new THREE.Vector3(image_vertices[0][i * 3], image_vertices[0][i * 3 + 1], image_vertices[0][i * 3 + 2]));
       mover.is_activate = true;
       movers.push(mover);
       color.toArray(colors, i * 3);
@@ -118,12 +129,6 @@ var exports = function(){
 
     canvas.width = 200;
     canvas.height = 200;
-    // grad = ctx.createRadialGradient(100, 100, 20, 100, 100, 100);
-    // grad.addColorStop(0.2, 'rgba(255, 255, 255, 1)');
-    // grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.3)');
-    // grad.addColorStop(1.0, 'rgba(255, 255, 255, 0)');
-    // ctx.fillStyle = grad;
-    // ctx.arc(100, 100, 100, 0, Math.PI / 180, true);
     ctx.fillStyle = '#ffffff';
     ctx.rect(0, 0, 200, 200);
     ctx.fill();
@@ -137,7 +142,9 @@ var exports = function(){
   Sketch.prototype = {
     init: function(scene, camera) {
       loadImage(function() {
-        getImageData();
+        for (var i = 0; i < images.length; i++) {
+          getImageData(i);
+        }
         buildPoints(scene);
       });
       camera.range = 1400;
@@ -167,6 +174,7 @@ var exports = function(){
 
     },
     touchStart: function(scene, camera, vector_mouse_down, vector_mouse_move) {
+
       applyForceToPoints();
     },
     touchMove: function(scene, camera, vector_mouse_down, vector_mouse_move) {
