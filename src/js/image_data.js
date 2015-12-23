@@ -145,6 +145,7 @@ var exports = function(){
         for (var i = 0; i < images.length; i++) {
           getImageData(i);
         }
+        // ここにどの画像の頂点数が一番多いかを判定するロジックを追加する必要あり。
         buildPoints(scene);
       });
       camera.range = 1400;
