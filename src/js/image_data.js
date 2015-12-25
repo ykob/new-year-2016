@@ -9,7 +9,7 @@ var exports = function(){
   var Sketch = function() {};
   var images = [];
   var image_files = [
-    './img/elephant.png'
+    './img/monkey.png'
   ];
   var image_vertices = [];
   var movers = [];
@@ -47,8 +47,8 @@ var exports = function(){
       if (y % 3 > 0) continue;
       for (var x = 0; x < length_side; x++) {
         if (x % 3 > 0) continue;
-        if(image_data.data[(x + y * length_side) * 4] > 0) {
-          image_vertices[i].push(0, (y - length_side / 2) * -1, (x - length_side/ 2) * -1);
+        if(image_data.data[(x + y * length_side) * 4 - 1] > 0) {
+          image_vertices[i].push(0, (y - length_side / 2) * -2, (x - length_side/ 2) * -2);
         }
       }
     }
@@ -69,7 +69,7 @@ var exports = function(){
       movers.push(mover);
       color.toArray(colors, i * 3);
       opacities[i] = 1;
-      sizes[i] = 0;
+      sizes[i] = 12;
     }
     points.init({
       scene: scene,
@@ -116,7 +116,7 @@ var exports = function(){
       positions[i * 3 + 1] = mover.position.y - points.position.x;
       positions[i * 3 + 2] = mover.position.z - points.position.x;
       mover.size = Math.log(Util.getRandomInt(1, 128)) / Math.log(128) * Math.sqrt(document.body.clientWidth) / 2;
-      sizes[i] = mover.size;
+      //sizes[i] = mover.size;
     }
     points.updatePoints();
   };
