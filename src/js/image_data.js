@@ -1,4 +1,5 @@
 var Util = require('./modules/util');
+var Force2 = require('./modules/force2');
 var Mover = require('./modules/mover');
 var glslify = require('glslify');
 var Points = require('./modules/points.js');
@@ -20,6 +21,7 @@ var exports = function(){
   var length_side = 400;
   var points = new Points();
   var created_points = false;
+  var last_time_bounce_mover = Date.now();
 
   var loadImage = function(callback) {
     var finished_count = 0;
@@ -65,11 +67,14 @@ var exports = function(){
         'hsl(0, 80%, 70%)'
       );
       mover.init(new THREE.Vector3(image_vertices[0][i * 3], image_vertices[0][i * 3 + 1], image_vertices[0][i * 3 + 2]));
+      mover.size = new Force2();
+      mover.size.anchor.set(24, 0);
+      mover.size.velocity.set(24, 0);
+      mover.size.position.set(24, 0);
       mover.is_activate = true;
       movers.push(mover);
       color.toArray(colors, i * 3);
       opacities[i] = 1;
-      sizes[i] = 12;
     }
     points.init({
       scene: scene,
@@ -100,7 +105,7 @@ var exports = function(){
     for (var i = 0; i < movers.length; i++) {
       var mover = movers[i];
       mover.time++;
-      if (mover.acceleration.length() < 1) {
+      if (mover.acceleration.length() < 0.1) {
         mover.is_activate = true;
       }
       if (mover.is_activate) {
@@ -115,8 +120,18 @@ var exports = function(){
       positions[i * 3 + 0] = mover.position.x - points.position.x;
       positions[i * 3 + 1] = mover.position.y - points.position.x;
       positions[i * 3 + 2] = mover.position.z - points.position.x;
-      mover.size = Math.log(Util.getRandomInt(1, 128)) / Math.log(128) * Math.sqrt(document.body.clientWidth) / 2;
-      //sizes[i] = mover.size;
+      //mover.size = Math.log(Util.getRandomInt(1, 128)) / Math.log(128) * Math.sqrt(document.body.clientWidth) / 2;
+      if (Util.getRandomInt(0, 1000) < 50) {
+        mover.size.applyForce(new THREE.Vector2(
+          (1 - Math.log(Util.getRandomInt(1, 512)) / Math.log(512))
+          * (1 - Math.log(Util.getRandomInt(1, 128)) / Math.log(128)) * 40,
+        0));
+      }
+      mover.size.applyHook(0, 0.04);
+      mover.size.applyDrag(0.01);
+      mover.size.updateVelocity();
+      mover.size.updatePosition();
+      sizes[i] = mover.size.position.x;
     }
     points.updatePoints();
   };
@@ -130,7 +145,7 @@ var exports = function(){
     canvas.width = 200;
     canvas.height = 200;
     ctx.fillStyle = '#ffffff';
-    ctx.rect(0, 0, 200, 200);
+    ctx.arc(100, 100, 100, 0, Math.PI * 2, false);
     ctx.fill();
 
     texture = new THREE.Texture(canvas);
