@@ -64,7 +64,7 @@ var exports = function(){
     for (var i = 0; i < image_vertices[0].length / 3; i++) {
       var mover = new Mover();
       var color = new THREE.Color(
-        'hsl(0, 80%, 70%)'
+        'hsl(0, 100%, 80%)'
       );
       mover.init(new THREE.Vector3(image_vertices[0][i * 3], image_vertices[0][i * 3 + 1], image_vertices[0][i * 3 + 2]));
       mover.size = new Force2();
