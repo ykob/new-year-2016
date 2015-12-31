@@ -1,4 +1,4 @@
-@import url(//fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+@import url('//fonts.googleapis.com/earlyaccess/notosansjapanese.css');
 
 * {
   margin: 0;
@@ -33,13 +33,18 @@ a {
 .page-title {
   line-height: 1.25;
   margin-bottom: 0.25em;
+  padding: 0 1em;
   color: #cc0000;
   font-size: 6vmax;
   letter-spacing: 0.025em;
 }
 p {
   line-height: 1.75;
-  font-size: 3vmin;
+  padding: 0 1em;
+  font-size: 2.25vmin;
+  @media (max-width: 768px) {
+    font-size: 1.8vmax;
+  }
 }
 #canvas {
   position: absolute;
