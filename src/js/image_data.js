@@ -68,9 +68,9 @@ var exports = function(){
       );
       mover.init(new THREE.Vector3(image_vertices[0][i * 3], image_vertices[0][i * 3 + 1], image_vertices[0][i * 3 + 2]));
       mover.size = new Force2();
-      mover.size.anchor.set(24, 0);
-      mover.size.velocity.set(24, 0);
-      mover.size.position.set(24, 0);
+      mover.size.anchor.set(12, 0);
+      mover.size.velocity.set(12, 0);
+      mover.size.position.set(12, 0);
       mover.is_activate = true;
       movers.push(mover);
       color.toArray(colors, i * 3);
@@ -127,11 +127,11 @@ var exports = function(){
           * (1 - Math.log(Util.getRandomInt(1, 128)) / Math.log(128)) * 40,
         0));
       }
-      mover.size.applyHook(0, 0.04);
-      mover.size.applyDrag(0.01);
+      mover.size.applyHook(0, 0.02);
+      mover.size.applyDrag(0.02);
       mover.size.updateVelocity();
       mover.size.updatePosition();
-      sizes[i] = mover.size.position.x;
+      sizes[i] = Math.abs(mover.size.position.x) + 12;
     }
     points.updatePoints();
   };
