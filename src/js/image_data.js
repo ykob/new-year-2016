@@ -50,7 +50,7 @@ var exports = function(){
       for (var x = 0; x < length_side; x++) {
         if (x % 3 > 0) continue;
         if(image_data.data[(x + y * length_side) * 4 - 1] > 0) {
-          image_vertices[i].push(0, (y - length_side / 2) * -2, (x - length_side/ 2) * -2);
+          image_vertices[i].push(0, (y - length_side / 2) * -1.7, (x - length_side/ 2) * -1.7);
         }
       }
     }
@@ -68,9 +68,9 @@ var exports = function(){
       );
       mover.init(new THREE.Vector3(image_vertices[0][i * 3], image_vertices[0][i * 3 + 1], image_vertices[0][i * 3 + 2]));
       mover.size = new Force2();
-      mover.size.anchor.set(12, 0);
-      mover.size.velocity.set(12, 0);
-      mover.size.position.set(12, 0);
+      mover.size.anchor.set(8, 0);
+      mover.size.velocity.set(8, 0);
+      mover.size.position.set(8, 0);
       mover.is_activate = true;
       movers.push(mover);
       color.toArray(colors, i * 3);
@@ -124,14 +124,14 @@ var exports = function(){
       if (Util.getRandomInt(0, 1000) < 50) {
         mover.size.applyForce(new THREE.Vector2(
           (1 - Math.log(Util.getRandomInt(1, 512)) / Math.log(512))
-          * (1 - Math.log(Util.getRandomInt(1, 128)) / Math.log(128)) * 40,
+          * (1 - Math.log(Util.getRandomInt(1, 128)) / Math.log(128)) * Math.log(window.innerWidth) * 3,
         0));
       }
       mover.size.applyHook(0, 0.02);
       mover.size.applyDrag(0.02);
       mover.size.updateVelocity();
       mover.size.updatePosition();
-      sizes[i] = Math.abs(mover.size.position.x) + 12;
+      sizes[i] = Math.abs(mover.size.position.x) + 8;
     }
     points.updatePoints();
   };
