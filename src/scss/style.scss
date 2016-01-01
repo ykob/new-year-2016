@@ -35,13 +35,15 @@ a {
   margin-bottom: 0.25em;
   padding: 0 1em;
   color: #cc0000;
-  font-size: 6vmax;
-  letter-spacing: 0.025em;
+  font-size: 5vmax;
+  letter-spacing: 0.06em;
 }
 p {
   line-height: 1.75;
+  margin-top: 1em;
   padding: 0 1em;
   font-size: 2.25vmin;
+  letter-spacing: 1px;
   @media (max-width: 768px) {
     font-size: 1.8vmax;
   }
